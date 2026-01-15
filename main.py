@@ -142,6 +142,20 @@ def main():
             return 0.35
 
     def should_refine_llm(confidence: str, raw_text: str) -> bool:
+        # Conditional grammar based on detected language:
+        # - English → NO grammar (raw transcription)
+        # - French → FORCE grammar
+        detected_lang = getattr(transcriber, "last_stats", {}).get("lang", "").lower()
+
+        if detected_lang == "en":
+            # English: skip grammar entirely
+            return False
+
+        if detected_lang == "fr":
+            # French: always use grammar (ignore other checks)
+            return True
+
+        # For other languages or unknown: use original logic
         if not settings.get("use_intelligence"):
             return False
 

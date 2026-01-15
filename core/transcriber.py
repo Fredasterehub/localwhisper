@@ -363,6 +363,11 @@ class Transcriber:
 
             self._maybe_update_sticky_language(info, audio_seconds)
 
+        # Always store detected language for downstream use (conditional grammar, etc.)
+        if "lang" not in self.last_stats:
+            detected = str(getattr(info, "language", "") or "").lower()
+            self.last_stats["lang"] = detected if detected else None
+
         return text
 
     def dump_effective_decode_args(self) -> dict:

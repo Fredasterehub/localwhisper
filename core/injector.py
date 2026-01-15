@@ -470,7 +470,14 @@ class Injector:
                     return
 
         try:
-            self.keyboard.type(text)
+            # Typing effect: character by character with delay
+            if settings.get("inject_typing_effect"):
+                delay = max(0.001, int(settings.get("inject_typing_effect_delay_ms") or 8) / 1000.0)
+                for char in text:
+                    self.keyboard.type(char)
+                    time.sleep(delay)
+            else:
+                self.keyboard.type(text)
         except Exception as e:
             log(f"Injection Failed: {e}", "error")
 

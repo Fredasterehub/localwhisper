@@ -80,6 +80,8 @@ class SettingsManager:
 
             # Injection behavior
             "inject_typing_max_chars": 32,
+            "inject_typing_effect": True,
+            "inject_typing_effect_delay_ms": 8,
             "inject_terminal_always_paste": True,
             "inject_clipboard_settle_ms": 80,
             "inject_clipboard_restore_delay_ms": 550,
