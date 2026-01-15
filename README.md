@@ -2,529 +2,181 @@
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows)](https://microsoft.com/windows)
+[![Windows](https://img.shields.io/badge/Windows-Ready-0078D6?logo=windows&logoColor=white)](#installation)
+[![macOS](https://img.shields.io/badge/macOS-Ready-000000?logo=apple&logoColor=white)](#macos)
 [![NVIDIA CUDA](https://img.shields.io/badge/NVIDIA-CUDA-76B900?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
 [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-412991?logo=openai)](https://github.com/openai/whisper)
-[![PyQt6](https://img.shields.io/badge/PyQt6-GUI-41CD52?logo=qt&logoColor=white)](https://riverbankcomputing.com/software/pyqt/)
-[![Ollama](https://img.shields.io/badge/Ollama-LLM-000000?logo=ollama&logoColor=white)](https://ollama.com/)
-[![macOS](https://img.shields.io/badge/macOS-Ready-success?logo=apple&logoColor=white)](#macos-support)
-[![Built with AI](https://img.shields.io/badge/Built%20with-AI%20%F0%9F%A4%96-blueviolet)](#origin-story)
+[![Built with AI](https://img.shields.io/badge/Built%20with-AI%20%F0%9F%A4%96-blueviolet)](#acknowledgments)
 
-> A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally, get polished text instantly typed into any application.
+> Blazing-fast, fully local voice-to-text for **Windows & macOS**. Speak naturally, get text typed into any application — including terminals.
 
 **100% offline. No cloud. No subscription. Your voice stays on your machine.**
 
 ## Why LocalWhisper?
 
-I built this because **commercial solutions like Whisper Flow don't work in terminals** - they only inject text into IDEs. I needed voice-to-text that works *everywhere*, including command-line interfaces, SSH sessions, and any text field on my system.
+Commercial solutions like Whisper Flow don't work in terminals — only in IDEs. I needed voice-to-text that works *everywhere*: terminals, SSH sessions, browsers, any text field.
 
-**Heads up:** This is 100% vibe-coded. Not production-grade, not enterprise-ready. Use at your own risk. But it works great for my daily workflow, and maybe it will for yours too.
-
-## Origin Story
-
-This project was built in **45 minutes** by [Antigravity](https://github.com/Fredasterehub) and **Gemini 3.0 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
-
-After the initial build, additional features were added over time with help from various AI coding assistants:
-- Audio visualizer with real-time waveform display
-- 5 overlay themes (Matrix Rain, Sauron Eye, etc.)
-- MMCSS Pro Audio thread priority for low-latency capture
-- P-core affinity optimization for Intel hybrid CPUs
-- Tunable settings with live preview
-
-The entire codebase has been optimized for a specific machine (RTX 4090 + i9-14900K). **Your mileage may vary** on different hardware - see the [Hardware Compatibility](#hardware-compatibility) section below.
+Built in 45 minutes by [Antigravity](https://github.com/Fredasterehub) + **Gemini 3.0 Pro**, then polished with **Claude**. 100% vibe-coded. Not enterprise-ready. Use at your own risk — but it works great.
 
 ## Features
 
-- **Two interfaces** - GUI overlay or Terminal UI (TUI) - your choice
-- **State-of-the-art transcription** with Whisper large-v3-turbo (6x faster than large-v3)
-- **Smart grammar correction** via local LLM (Ollama)
-- **Voice Activity Detection** - default mode, automatically detects when you stop speaking
-- **Push-to-Talk** - also available and works great if you prefer manual control
-- **Instant text injection** - types directly into any focused window, including terminals
-- **5 overlay themes** - Matrix Rain, Dot, Sauron Eye, HUD Ring, Cyborg
-- **Cyberpunk TUI** - Matrix rain in your terminal with Textual
-- **Customizable settings** - tweak to your needs
-- **Optimized for speed** - <1 second total latency on RTX 4090
-- **Multilingual** - handles English, French, and seamless code-switching (Franglais!)
-- **macOS support ready** - native Apple Silicon version, upload coming very soon
+- **Sub-second latency** — ~0.6s total on RTX 4090
+- **Works everywhere** — terminals, IDEs, browsers, Discord, anything
+- **Two modes** — Voice Activation (default) or Push-to-Talk
+- **Two interfaces** — GUI overlay or Terminal UI (TUI)
+- **5 overlay themes** — Matrix Rain, Sauron Eye, HUD Ring, Dot, Cyborg
+- **Grammar correction** — optional local LLM via Ollama
+- **Multilingual** — English, French, and Franglais code-switching
 
-## Requirements
+## Quick Start
 
-### Hardware
-
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| GPU | NVIDIA with 6GB VRAM | RTX 3080+ / RTX 4070+ |
-| CPU | Any modern quad-core | Intel 12th gen+ / AMD Ryzen 5000+ |
-| RAM | 8GB | 16GB+ |
-| OS | Windows 10 | Windows 11 |
-
-### Software
-
-- Python 3.10 or higher
-- NVIDIA GPU drivers (CUDA support)
-- [Ollama](https://ollama.com/) (optional, for grammar correction)
-
-## Installation
-
-### Quick Install (Recommended)
+### Windows
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/Fredasterehub/localwhisper.git
 cd localwhisper
-
-# 2. Run the installer
 install.bat
+run.bat
 ```
 
-The installer will:
-- Create a Python virtual environment
-- Install all dependencies
-- Download the Whisper model (~1.5GB)
-- Check for Ollama and pull the grammar model
+### macOS
 
-### Manual Install
-
-<details>
-<summary>Click to expand manual installation steps</summary>
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/Fredasterehub/localwhisper.git
-cd localwhisper
-
-# 2. Create virtual environment
-python -m venv venv
-venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Download models
-python setup_models.py
-
-# 5. (Optional) Install Ollama for grammar correction
-# Download from https://ollama.com/
-ollama pull gemma3:1b
-```
-
-</details>
+Native Apple Silicon version ready — upload coming very soon. Watch this repo.
 
 ## Usage
 
-LocalWhisper offers **two interfaces** - choose the one that fits your workflow:
+1. **Focus** any text field
+2. **Press** `Ctrl + Alt + W`
+3. **Speak** — overlay turns red
+4. **Stop** — overlay turns blue, text appears
 
-### GUI Mode (Default)
-
-The graphical overlay that floats on your desktop.
-
-```bash
-run.bat
-# or
-python main.py
-```
-
-**Features:**
-- Floating overlay with 5 visual themes
-- Right-click menu for settings
-- Drag to reposition anywhere on screen
-- Real-time audio visualization
-- Full settings dialog with live preview
-
-### TUI Mode (Terminal)
-
-A cyberpunk-style terminal interface built with [Textual](https://textual.textualize.io/).
-
-```bash
-run_tui.bat
-# or
-python main_tui.py
-```
-
-**Features:**
-- Matrix rain animation in the terminal
-- Split-pane layout: visualization + status log
-- Keyboard-driven (press `q` to quit, `s` for settings info)
-- Perfect for SSH sessions or minimal setups
-- Same core engine as GUI mode
-
-```
-┌─────────────────────────────────────┬──────────────────────┐
-│                                     │ STATUS: IDLE         │
-│     ╔═══════════════════════╗       ├──────────────────────┤
-│     ║  M A T R I X   R A I N ║      │ [12:34:56] READY     │
-│     ║  ░▒▓█ катакана █▓▒░   ║      │ [12:34:57] LISTENING │
-│     ╚═══════════════════════╝       │ [12:35:01] PROCESSING│
-│                                     │ [12:35:02] SUCCESS   │
-└─────────────────────────────────────┴──────────────────────┘
-```
-
-### Basic Workflow
-
-1. **Focus** any text field (Notepad, browser, Discord, terminal, etc.)
-2. **Press** `Ctrl + Alt + W` (default hotkey)
-3. **Speak** naturally - the overlay turns **red** while listening
-4. **Stop** speaking - the overlay turns **blue** while processing
-5. **Done** - your transcribed text appears in the focused window
-
-### Overlay Controls
-
-| Action | How |
-|--------|-----|
-| Open menu | Right-click the overlay |
-| Move overlay | Menu → Unlock Position → Drag |
-| Change settings | Menu → Settings |
-| Quit | Menu → Quit |
-
-## Configuration
-
-### Quick Settings
-
-Edit `config.py` to change defaults:
-
-```python
-HOTKEY = "ctrl+alt+w"              # Trigger key combination
-WHISPER_MODEL_SIZE = "large-v3-turbo"  # Or "medium", "small" for less VRAM
-OLLAMA_MODEL = "gemma3:1b"         # Grammar correction model
-USE_INTELLIGENCE = True            # Set False to disable grammar correction
-```
-
-### Settings UI
-
-Right-click the overlay → **Settings** to access:
-
-- **Input Device** - Select your microphone
-- **Sensitivity** - Adjust voice detection threshold (watch the green bar!)
-- **Push to Talk** - Enable PTT mode with custom key
-- **Grammar AI** - Toggle Ollama correction on/off
-- **Language Lock** - Force English or French detection
-- **Overlay Theme** - Choose your visual style
-- **Injection Mode** - Type vs paste behavior
-
-## Hardware Compatibility
-
-> **Important:** This project was built and optimized for a specific machine (RTX 4090 + i9-14900K with hybrid P-core/E-core architecture). Some optimizations may not work or may need adjustment on your hardware.
-
-### NVIDIA GPUs
-
-Should work out of the box. If you have less VRAM, try a smaller model:
-
-```python
-# In config.py
-WHISPER_MODEL_SIZE = "medium"  # ~5GB VRAM instead of ~6GB
-# or
-WHISPER_MODEL_SIZE = "small"   # ~2GB VRAM
-```
-
-### AMD GPUs
-
-**Not tested.** Whisper relies on CUDA, which is NVIDIA-only. AMD users would need:
-- ROCm support (Linux only, experimental on Windows)
-- Or CPU-only mode (much slower)
-
-### AMD CPUs
-
-Should work, but the P-core affinity optimization (`core/cpu_affinity.py`) is Intel-specific. On AMD, you may want to disable it or adjust the core selection logic.
-
-### Tuning for Your Machine
-
-**Pro tip:** Ask your local AI assistant (Claude, GPT, etc.) to help you tune the settings for your specific hardware. Share your specs and the contents of `config.py` and `core/settings.py`, and ask for optimization suggestions.
-
-## macOS Support
-
-The macOS version is **fully developed and optimized** for Apple Silicon (M1/M2/M3/M4). Upload coming very soon.
-
-**What to expect:**
-- Native Apple Silicon support (no Rosetta needed)
-- Optimized for Metal GPU acceleration
-- Same features as the Windows version
-- One-click installer (.command file)
-
-Watch this repo or check back soon for the release.
-
-## Overlay Themes
-
-| Theme | Description |
-|-------|-------------|
-| **Matrix** | Animated Katakana rain with Knight Rider sweep effect |
-| **Dot** | Minimalist pulsing orb |
-| **Sauron** | Fiery eye of Mordor |
-| **HUD** | Sci-fi holographic ring |
-| **Cyborg** | Terminator-style skull |
+Right-click overlay for settings. Edit `config.py` for hotkey, model size, etc.
 
 ## Performance
 
-Benchmarked on RTX 4090 + i9-14900K with real speech tests:
+Benchmarked on RTX 4090 + i9-14900K:
 
 | Metric | Value |
 |--------|-------|
 | **Total latency** | **~0.6s** |
 | Whisper inference | ~0.23s |
-| Grammar correction (Ollama) | ~0.35s |
-| Whisper only (no grammar) | ~0.4s |
-| Idle CPU usage | < 10% |
+| Grammar correction | ~0.35s |
 | VRAM usage | ~6GB |
 
-### Optimizations Applied
+Run `python benchmark_interactive.py` to test your hardware.
 
-- **127.0.0.1 instead of localhost** - Fixes 2-second DNS lookup delay on Windows
-- **HTTP connection reuse** - `requests.Session()` for persistent TCP connections
-- **Whisper large-v3-turbo** - 6x faster than large-v3, same quality
+## Requirements
 
-These optimizations reduced total latency from ~2.7s to ~0.6s.
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| GPU | NVIDIA 6GB VRAM | RTX 3080+ |
+| RAM | 8GB | 16GB+ |
+| OS | Windows 10 / macOS 12+ | Windows 11 / macOS 14+ |
 
-*Run `python benchmark_interactive.py` to test on your hardware.*
+**Software:** Python 3.10+, NVIDIA drivers, [Ollama](https://ollama.com/) (optional)
 
-## Troubleshooting
+<details>
+<summary><strong>Hardware Compatibility Notes</strong></summary>
 
-| Problem | Solution |
-|---------|----------|
-| No audio detected | Settings → Input Device, check the green level bar |
-| Text not appearing | Run as Administrator (needed for some apps) |
-| Slow transcription | Ensure NVIDIA drivers + CUDA are installed |
-| "No module named X" | Run `install.bat` again or `pip install -r requirements.txt` |
-| Ollama errors | Run `ollama serve` manually, or disable grammar in config |
-| High CPU when idle | Update to latest version (fixed with 10ms sleep in VAD loop) |
-
-### Logs
-
-Detailed logs are saved to `logs/session.log`.
-
-## Project Structure
-
+### NVIDIA GPUs
+Works out of the box. Less VRAM? Use smaller model:
+```python
+WHISPER_MODEL_SIZE = "medium"  # 5GB VRAM
+WHISPER_MODEL_SIZE = "small"   # 2GB VRAM
 ```
-localwhisper/
-├── main.py              # Entry point
-├── config.py            # Basic configuration
-├── install.bat          # One-click installer
-├── run.bat              # Start the app
-├── core/
-│   ├── audio.py         # Mic capture + Silero VAD
-│   ├── transcriber.py   # Faster-Whisper inference
-│   ├── intelligence.py  # Ollama grammar correction
-│   ├── injector.py      # Text injection (type/paste)
-│   ├── settings.py      # Settings manager
-│   ├── cpu_affinity.py  # Intel P-core optimization
-│   └── mmcss.py         # Windows Pro Audio priority
-├── ui/
-│   ├── overlay.py       # PyQt6 overlay (5 themes)
-│   └── settings_dialog.py
-└── tui/
-    └── app.py           # Terminal UI alternative
-```
+
+### AMD GPUs
+Not tested. Needs ROCm (Linux) or CPU mode (slow).
+
+### AMD CPUs
+Works, but P-core affinity optimization is Intel-specific. May need adjustment.
+
+### Apple Silicon
+Native Metal acceleration. No Rosetta needed.
+
+</details>
 
 ## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
 | Transcription | [Faster-Whisper](https://github.com/SYSTRAN/faster-whisper) large-v3-turbo |
-| Voice Detection | [Silero VAD](https://github.com/snakers4/silero-vad) v4 (ONNX) |
+| VAD | [Silero VAD](https://github.com/snakers4/silero-vad) v4 |
 | Grammar | [Ollama](https://ollama.com/) + Gemma 3 1B |
 | GUI | PyQt6 |
-| Audio | sounddevice (PortAudio backend) |
+| TUI | [Textual](https://textual.textualize.io/) |
 
-## Contributing
+## Troubleshooting
 
-Contributions are welcome! This project was AI-assisted from the start, so feel free to use AI tools to help with your PRs.
+| Problem | Solution |
+|---------|----------|
+| No audio | Settings → Input Device, check green level bar |
+| Text not appearing | Run as Administrator |
+| Slow | Check NVIDIA drivers + CUDA installed |
+| Ollama errors | Run `ollama serve` or disable in config |
 
-Some ideas for contributions:
-- AMD GPU support (ROCm)
-- Linux/macOS ports
-- Additional overlay themes
-- Smaller/faster model options
-- Better language detection
-
-## For AI Assistants
-
-> This section contains structured instructions for AI coding assistants (Claude, GPT, Gemini, etc.) helping users install and configure LocalWhisper.
+Logs: `logs/session.log`
 
 <details>
-<summary>Click to expand AI Assistant Instructions</summary>
+<summary><strong>For AI Assistants</strong></summary>
 
 ### Pre-Installation Checklist
 
-Before starting, verify the user's system meets requirements:
-
 ```yaml
 requirements:
-  os: Windows 10 or 11
+  os: Windows 10+ or macOS 12+
   python: ">=3.10"
-  gpu: NVIDIA with CUDA support (recommended)
-  vram_minimum: 2GB (small model), 5GB (medium), 6GB (large-v3-turbo)
-  ram_minimum: 8GB
-  disk_space: ~5GB (models + dependencies)
-
-software_dependencies:
-  required:
-    - Python 3.10+
-    - NVIDIA GPU drivers
-  optional:
-    - Ollama (for grammar correction)
+  gpu: NVIDIA with CUDA (Windows) or Apple Silicon (macOS)
+  vram: 2GB (small), 5GB (medium), 6GB (large-v3-turbo)
+  ram: 8GB minimum
 ```
 
 ### Installation Steps
 
-Execute these steps in order:
+```yaml
+step_1: git clone https://github.com/Fredasterehub/localwhisper.git && cd localwhisper
+step_2: python -m venv venv && venv\Scripts\activate  # Windows
+step_3: pip install -r requirements.txt
+step_4: python setup_models.py
+step_5: ollama pull gemma3:1b  # Optional
+```
+
+### Model Selection by VRAM
 
 ```yaml
-step_1_clone:
-  command: "git clone https://github.com/Fredasterehub/localwhisper.git && cd localwhisper"
-  verify: "Directory contains main.py, config.py, requirements.txt"
-
-step_2_create_venv:
-  command: "python -m venv venv"
-  verify: "venv/Scripts/activate.bat exists"
-
-step_3_activate_venv:
-  command: "venv\\Scripts\\activate"  # Windows
-  verify: "Command prompt shows (venv) prefix"
-
-step_4_install_dependencies:
-  command: "pip install -r requirements.txt"
-  verify: "No errors, PyQt6 and faster_whisper installed"
-  troubleshooting:
-    - error: "CUDA not found"
-      solution: "Install NVIDIA CUDA Toolkit or use CPU mode"
-    - error: "Microsoft Visual C++ required"
-      solution: "Install Visual Studio Build Tools"
-
-step_5_download_models:
-  command: "python setup_models.py"
-  verify: "silero_vad.onnx exists, models/ directory populated"
-  note: "First run downloads ~1.5GB for large-v3-turbo"
-
-step_6_ollama_optional:
-  check: "where ollama"
-  if_missing: "Direct user to https://ollama.com/download"
-  if_present: "ollama pull gemma3:1b"
+24GB+: large-v3-turbo, float16
+8-16GB: large-v3-turbo, float16
+6-8GB: medium, float16
+<6GB: small, int8
 ```
 
-### Hardware-Based Configuration
+### Common Issues
 
-Adjust `config.py` based on user's hardware:
-
-```yaml
-model_selection:
-  vram_24gb_plus:  # RTX 4090, 3090
-    WHISPER_MODEL_SIZE: "large-v3-turbo"
-    COMPUTE_TYPE: "float16"
-  vram_8_to_16gb:  # RTX 4070, 3080
-    WHISPER_MODEL_SIZE: "large-v3-turbo"
-    COMPUTE_TYPE: "float16"
-  vram_6_to_8gb:   # RTX 3060, 4060
-    WHISPER_MODEL_SIZE: "medium"
-    COMPUTE_TYPE: "float16"
-  vram_under_6gb:  # GTX 1660, etc.
-    WHISPER_MODEL_SIZE: "small"
-    COMPUTE_TYPE: "int8"
-  no_nvidia_gpu:
-    WHISPER_MODEL_SIZE: "small"
-    DEVICE: "cpu"
-    note: "Will be significantly slower"
-
-cpu_optimization:
-  intel_12th_gen_plus:  # Hybrid architecture
-    - "P-core affinity enabled by default"
-    - "MMCSS Pro Audio registration active"
-  amd_ryzen:
-    - "May need to disable cpu_affinity.py"
-    - "Edit core/cpu_affinity.py or set ENABLE_CPU_AFFINITY=False"
-```
-
-### Verification Commands
-
-After installation, verify everything works:
-
-```bash
-# Check Python environment
-python -c "import faster_whisper; print('Whisper OK')"
-python -c "import PyQt6; print('PyQt6 OK')"
-python -c "import sounddevice; print(sounddevice.query_devices())"
-
-# Check Ollama (if installed)
-ollama list  # Should show gemma3:1b
-
-# Test run (will show overlay)
-python main.py
-```
-
-### Common Issues & Solutions
-
-```yaml
-issue_cuda_not_available:
-  symptoms: "Slow transcription, CPU at 100%"
-  diagnosis: "python -c \"import torch; print(torch.cuda.is_available())\""
-  solutions:
-    - "Install NVIDIA CUDA Toolkit 11.8+"
-    - "Update NVIDIA drivers"
-    - "Reinstall PyTorch with CUDA: pip install torch --index-url https://download.pytorch.org/whl/cu118"
-
-issue_no_audio_input:
-  symptoms: "Red overlay but no transcription"
-  diagnosis: "Check Settings > Input Device"
-  solutions:
-    - "Select correct microphone in Settings UI"
-    - "Adjust VAD sensitivity threshold"
-    - "Check Windows microphone permissions"
-
-issue_text_not_injecting:
-  symptoms: "Transcription works but text doesn't appear"
-  diagnosis: "Check if target app requires admin"
-  solutions:
-    - "Run LocalWhisper as Administrator"
-    - "Try different injection mode in Settings"
-
-issue_ollama_connection:
-  symptoms: "Grammar correction fails"
-  diagnosis: "curl http://localhost:11434/api/tags"
-  solutions:
-    - "Start Ollama: ollama serve"
-    - "Pull model: ollama pull gemma3:1b"
-    - "Or disable: set USE_INTELLIGENCE=False in config.py"
-```
-
-### User Preferences to Ask
-
-When helping a user, gather this information:
-
-```yaml
-questions:
-  - "What NVIDIA GPU do you have? (or AMD/Intel)"
-  - "How much RAM does your system have?"
-  - "Do you want grammar correction? (requires Ollama)"
-  - "What language(s) will you primarily speak? (English/French/both)"
-  - "Do you prefer minimal UI or visual feedback?"
-```
-
-### Post-Installation Tips
-
-Share these with the user after successful installation:
-
-```yaml
-tips:
-  - hotkey: "Default is Ctrl+Alt+W, changeable in config.py"
-  - overlay: "Right-click for menu, drag to reposition"
-  - settings: "Check Settings dialog for customization options"
-  - logs: "Check logs/session.log for debugging"
-  - performance: "First transcription is slower (model loading)"
-```
+- **CUDA not found**: Install NVIDIA CUDA Toolkit 11.8+
+- **No audio**: Check Settings → Input Device
+- **Text not injecting**: Run as Administrator
+- **Ollama fails**: Run `ollama serve` first
 
 </details>
 
+## Contributing
+
+Contributions welcome! Ideas:
+- AMD GPU support (ROCm)
+- Linux port
+- More overlay themes
+- Smaller model options
+
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](LICENSE)
 
 ## Acknowledgments
 
-- **Antigravity** - Creator and maintainer
-- **Google Gemini 3.0 Pro** - Built the initial version in 45 minutes
-- **Claude** - Helped polish and add features
-- OpenAI for Whisper
-- SYSTRAN for Faster-Whisper
-- Silero Team for VAD
-- Ollama team for local LLM serving
+- **Antigravity** — Creator
+- **Google Gemini 3.0 Pro** — Initial build
+- **Claude** — Polish and optimization
+- OpenAI (Whisper), SYSTRAN (Faster-Whisper), Silero (VAD), Ollama
 
 ---
 
