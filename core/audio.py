@@ -257,8 +257,11 @@ class AudioEngine:
                             skip_vad = True
                             speech_prob = 0.0 # Force 0
                             
-                    if not skip_vad:
-                         speech_prob, h, c = self._vad_iterator(data, h, c)
+                    if skip_vad:
+                        # CPU optimization: sleep during obvious silence to reduce idle CPU usage
+                        time.sleep(0.01)  # 10ms
+                    else:
+                        speech_prob, h, c = self._vad_iterator(data, h, c)
                     
                     max_speech_prob = max(max_speech_prob, float(speech_prob))
 
