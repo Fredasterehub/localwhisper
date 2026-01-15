@@ -253,6 +253,183 @@ Some ideas for contributions:
 - Smaller/faster model options
 - Better language detection
 
+## For AI Assistants
+
+> This section contains structured instructions for AI coding assistants (Claude, GPT, Gemini, etc.) helping users install and configure LocalWhisper.
+
+<details>
+<summary>Click to expand AI Assistant Instructions</summary>
+
+### Pre-Installation Checklist
+
+Before starting, verify the user's system meets requirements:
+
+```yaml
+requirements:
+  os: Windows 10 or 11
+  python: ">=3.10"
+  gpu: NVIDIA with CUDA support (recommended)
+  vram_minimum: 2GB (small model), 5GB (medium), 6GB (large-v3-turbo)
+  ram_minimum: 8GB
+  disk_space: ~5GB (models + dependencies)
+
+software_dependencies:
+  required:
+    - Python 3.10+
+    - NVIDIA GPU drivers
+  optional:
+    - Ollama (for grammar correction)
+```
+
+### Installation Steps
+
+Execute these steps in order:
+
+```yaml
+step_1_clone:
+  command: "git clone https://github.com/YOUR_USERNAME/localwhisper.git && cd localwhisper"
+  verify: "Directory contains main.py, config.py, requirements.txt"
+
+step_2_create_venv:
+  command: "python -m venv venv"
+  verify: "venv/Scripts/activate.bat exists"
+
+step_3_activate_venv:
+  command: "venv\\Scripts\\activate"  # Windows
+  verify: "Command prompt shows (venv) prefix"
+
+step_4_install_dependencies:
+  command: "pip install -r requirements.txt"
+  verify: "No errors, PyQt6 and faster_whisper installed"
+  troubleshooting:
+    - error: "CUDA not found"
+      solution: "Install NVIDIA CUDA Toolkit or use CPU mode"
+    - error: "Microsoft Visual C++ required"
+      solution: "Install Visual Studio Build Tools"
+
+step_5_download_models:
+  command: "python setup_models.py"
+  verify: "silero_vad.onnx exists, models/ directory populated"
+  note: "First run downloads ~1.5GB for large-v3-turbo"
+
+step_6_ollama_optional:
+  check: "where ollama"
+  if_missing: "Direct user to https://ollama.com/download"
+  if_present: "ollama pull gemma3:1b"
+```
+
+### Hardware-Based Configuration
+
+Adjust `config.py` based on user's hardware:
+
+```yaml
+model_selection:
+  vram_24gb_plus:  # RTX 4090, 3090
+    WHISPER_MODEL_SIZE: "large-v3-turbo"
+    COMPUTE_TYPE: "float16"
+  vram_8_to_16gb:  # RTX 4070, 3080
+    WHISPER_MODEL_SIZE: "large-v3-turbo"
+    COMPUTE_TYPE: "float16"
+  vram_6_to_8gb:   # RTX 3060, 4060
+    WHISPER_MODEL_SIZE: "medium"
+    COMPUTE_TYPE: "float16"
+  vram_under_6gb:  # GTX 1660, etc.
+    WHISPER_MODEL_SIZE: "small"
+    COMPUTE_TYPE: "int8"
+  no_nvidia_gpu:
+    WHISPER_MODEL_SIZE: "small"
+    DEVICE: "cpu"
+    note: "Will be significantly slower"
+
+cpu_optimization:
+  intel_12th_gen_plus:  # Hybrid architecture
+    - "P-core affinity enabled by default"
+    - "MMCSS Pro Audio registration active"
+  amd_ryzen:
+    - "May need to disable cpu_affinity.py"
+    - "Edit core/cpu_affinity.py or set ENABLE_CPU_AFFINITY=False"
+```
+
+### Verification Commands
+
+After installation, verify everything works:
+
+```bash
+# Check Python environment
+python -c "import faster_whisper; print('Whisper OK')"
+python -c "import PyQt6; print('PyQt6 OK')"
+python -c "import sounddevice; print(sounddevice.query_devices())"
+
+# Check Ollama (if installed)
+ollama list  # Should show gemma3:1b
+
+# Test run (will show overlay)
+python main.py
+```
+
+### Common Issues & Solutions
+
+```yaml
+issue_cuda_not_available:
+  symptoms: "Slow transcription, CPU at 100%"
+  diagnosis: "python -c \"import torch; print(torch.cuda.is_available())\""
+  solutions:
+    - "Install NVIDIA CUDA Toolkit 11.8+"
+    - "Update NVIDIA drivers"
+    - "Reinstall PyTorch with CUDA: pip install torch --index-url https://download.pytorch.org/whl/cu118"
+
+issue_no_audio_input:
+  symptoms: "Red overlay but no transcription"
+  diagnosis: "Check Settings > Input Device"
+  solutions:
+    - "Select correct microphone in Settings UI"
+    - "Adjust VAD sensitivity threshold"
+    - "Check Windows microphone permissions"
+
+issue_text_not_injecting:
+  symptoms: "Transcription works but text doesn't appear"
+  diagnosis: "Check if target app requires admin"
+  solutions:
+    - "Run LocalWhisper as Administrator"
+    - "Try different injection mode in Settings"
+
+issue_ollama_connection:
+  symptoms: "Grammar correction fails"
+  diagnosis: "curl http://localhost:11434/api/tags"
+  solutions:
+    - "Start Ollama: ollama serve"
+    - "Pull model: ollama pull gemma3:1b"
+    - "Or disable: set USE_INTELLIGENCE=False in config.py"
+```
+
+### User Preferences to Ask
+
+When helping a user, gather this information:
+
+```yaml
+questions:
+  - "What NVIDIA GPU do you have? (or AMD/Intel)"
+  - "How much RAM does your system have?"
+  - "Do you want grammar correction? (requires Ollama)"
+  - "What language(s) will you primarily speak? (English/French/both)"
+  - "Do you prefer minimal UI or visual feedback?"
+```
+
+### Post-Installation Tips
+
+Share these with the user after successful installation:
+
+```yaml
+tips:
+  - hotkey: "Default is Ctrl+Alt+W, changeable in config.py"
+  - overlay: "Right-click for menu, drag to reposition"
+  - settings: "100+ options available in Settings dialog"
+  - logs: "Check logs/session.log for debugging"
+  - performance: "First transcription is slower (model loading)"
+```
+
+</details>
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
