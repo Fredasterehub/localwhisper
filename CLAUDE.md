@@ -85,7 +85,7 @@ tui/
 | Component | Model | Notes |
 |-----------|-------|-------|
 | Transcription | **Whisper large-v3-turbo** | 6x faster than large-v3, same quality |
-| VAD | Silero VAD v4 | ONNX Runtime on CPU |
+| VAD | Silero VAD v5 | ONNX Runtime on CPU, 10% faster |
 | Grammar | **Gemma 3 1B** via Ollama | Fast, excellent multilingual |
 | GUI | PyQt6 | |
 | Audio | sounddevice | PortAudio backend |
@@ -97,10 +97,10 @@ tui/
 - [x] Gemma 3 1B for grammar (~100ms inference)
 - [x] 10ms sleep during silence detection (reduces idle CPU from 70% to <10%)
 
-### Medium Effort (TODO)
-- [ ] MMCSS "Pro Audio" registration for audio threads
-- [ ] P-core affinity on i9-14900K hybrid CPU
-- [ ] Upgrade Silero VAD to v5 (10% faster)
+### Medium Effort (Done)
+- [x] MMCSS "Pro Audio" registration for audio threads (`core/mmcss.py`)
+- [x] P-core affinity on i9-14900K hybrid CPU (`core/cpu_affinity.py`)
+- [x] Upgrade Silero VAD to v5 (10% faster)
 
 ### Not Doing (Intentionally)
 - NeMo/Parakeet (complex Windows setup, WSL2 required)

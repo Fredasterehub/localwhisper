@@ -9,6 +9,8 @@ import requests
 import math
 from core.settings import manager as settings
 from core.logger import log
+from core.mmcss import get_mmcss_manager
+from core.cpu_affinity import disable_power_throttling
 
 class AudioEngine:
     def __init__(self):
@@ -116,7 +118,8 @@ class AudioEngine:
 
     def download_vad_if_needed(self):
         if not os.path.exists(self.vad_model_path) or os.path.getsize(self.vad_model_path) < 1000000:
-            url = "https://github.com/snakers4/silero-vad/raw/v4.0/files/silero_vad.onnx"
+            # Silero VAD v5 - 10% faster ONNX inference
+            url = "https://github.com/snakers4/silero-vad/raw/v5.1/src/silero_vad/data/silero_vad.onnx"
             try:
                 headers = {'User-Agent': 'Mozilla/5.0'}
                 r = requests.get(url, headers=headers, allow_redirects=True, timeout=10)
@@ -170,6 +173,15 @@ class AudioEngine:
 
     def listen_single_segment(self):
         self._running = True
+
+        # CPU optimizations for real-time audio on hybrid CPUs (i9-14900K)
+        mmcss_registered = False
+        try:
+            mmcss_registered = get_mmcss_manager().register_audio_thread("Pro Audio")
+            disable_power_throttling()
+        except Exception as e:
+            log(f"CPU optimization failed (non-critical): {e}", "warning")
+
         CHUNK_SIZE = int(getattr(config, "BLOCK_SIZE", 512))
         if self.sample_rate == 16000 and CHUNK_SIZE != 512:
             log(f"Silero VAD expects 512 samples at 16kHz; overriding BLOCK_SIZE={CHUNK_SIZE} -> 512.", "warning")
@@ -337,6 +349,12 @@ class AudioEngine:
             time.sleep(1)
             return np.array([], dtype=np.float32)
         finally:
+            # Unregister from MMCSS when done
+            if mmcss_registered:
+                try:
+                    get_mmcss_manager().unregister_audio_thread()
+                except Exception:
+                    pass
             self._resume_metering_if_needed()
 
 if __name__ == "__main__":

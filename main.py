@@ -13,6 +13,13 @@ from pynput import keyboard
 os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 os.environ["QT_SCALE_FACTOR"] = "1"
 
+# Apply CPU optimizations early (before heavy imports)
+try:
+    from core.cpu_affinity import apply_all_cpu_optimizations
+    apply_all_cpu_optimizations()
+except Exception:
+    pass  # Non-critical, continue without optimizations
+
 # --- CUDA DLL FIX ---
 try:
     venv_base = os.path.dirname(os.path.dirname(sys.executable))
