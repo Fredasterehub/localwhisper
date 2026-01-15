@@ -1,3 +1,8 @@
+<!--
+AI ASSISTANTS: For concise installation instructions, see llms.txt in this repository.
+URL: https://raw.githubusercontent.com/Fredasterehub/localwhisper/master/llms.txt
+-->
+
 # LocalWhisper
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://python.org)
@@ -120,42 +125,9 @@ Logs: `logs/session.log`
 <details>
 <summary><strong>For AI Assistants</strong></summary>
 
-### Pre-Installation Checklist
+See [`llms.txt`](llms.txt) for concise installation instructions optimized for LLMs.
 
-```yaml
-requirements:
-  os: Windows 10+ or macOS 12+
-  python: ">=3.10"
-  gpu: NVIDIA with CUDA (Windows) or Apple Silicon (macOS)
-  vram: 2GB (small), 5GB (medium), 6GB (large-v3-turbo)
-  ram: 8GB minimum
-```
-
-### Installation Steps
-
-```yaml
-step_1: git clone https://github.com/Fredasterehub/localwhisper.git && cd localwhisper
-step_2: python -m venv venv && venv\Scripts\activate  # Windows
-step_3: pip install -r requirements.txt
-step_4: python setup_models.py
-step_5: ollama pull gemma3:1b  # Optional
-```
-
-### Model Selection by VRAM
-
-```yaml
-24GB+: large-v3-turbo, float16
-8-16GB: large-v3-turbo, float16
-6-8GB: medium, float16
-<6GB: small, int8
-```
-
-### Common Issues
-
-- **CUDA not found**: Install NVIDIA CUDA Toolkit 11.8+
-- **No audio**: Check Settings → Input Device
-- **Text not injecting**: Run as Administrator
-- **Ollama fails**: Run `ollama serve` first
+Raw URL: `https://raw.githubusercontent.com/Fredasterehub/localwhisper/master/llms.txt`
 
 </details>
 
