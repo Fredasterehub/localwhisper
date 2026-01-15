@@ -343,7 +343,7 @@ def main():
         os._exit(0)
 
     ui_queue.put("IDLE")
-    run_overlay(ui_queue, on_settings_click, app)
+    run_overlay(ui_queue, on_settings_click, app, audio_engine=audio)
     on_quit()
 
 if __name__ == "__main__":
