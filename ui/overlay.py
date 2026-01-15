@@ -302,31 +302,31 @@ class MatrixRainWidget(OverlayBaseWidget):
                     sweep = abs(math.sin(self._breath_phase))  # 0→1→0
                     sweep_col = int(sweep * self.cols)
 
-                    # Distance from sweep (with wrap for smoothness)
+                    # Distance from sweep
                     dist = abs(d['col'] - sweep_col)
 
-                    # Glow width (columns affected by sweep)
-                    glow_width = max(3, self.cols // 6)
+                    # Narrower glow for sharper sweep
+                    glow_width = max(2, self.cols // 8)
 
                     if dist < glow_width:
-                        # Boost brightness near sweep (Knight Rider glow)
+                        # Intense brightness at sweep center
                         boost = 1.0 - (dist / glow_width)
-                        alpha = int(alpha * (0.5 + 0.8 * boost))  # 50% base, up to 130%
+                        alpha = int(alpha * (0.6 + 1.2 * boost))  # Up to 180%
                         alpha = min(255, alpha)
                     else:
-                        alpha = int(alpha * 0.5)  # Dim columns away from sweep
+                        alpha = int(alpha * 0.2)  # Much darker away from sweep
 
                 if i == 0: # Head
                     if self.state == "PROCESSING":
                         sweep = abs(math.sin(self._breath_phase))
                         sweep_col = int(sweep * self.cols)
                         dist = abs(d['col'] - sweep_col)
-                        glow_width = max(3, self.cols // 6)
+                        glow_width = max(2, self.cols // 8)
                         if dist < glow_width:
                             boost = 1.0 - (dist / glow_width)
-                            head_alpha = int(180 + 75 * boost)
+                            head_alpha = int(200 + 55 * boost)
                         else:
-                            head_alpha = 150
+                            head_alpha = 60  # Much dimmer heads away from sweep
                         painter.setPen(QColor(200, 200, 255, head_alpha))
                     else:
                         painter.setPen(QColor(220, 255, 220, 255))
