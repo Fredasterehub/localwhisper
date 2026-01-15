@@ -7,6 +7,7 @@
 [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-412991?logo=openai)](https://github.com/openai/whisper)
 [![PyQt6](https://img.shields.io/badge/PyQt6-GUI-41CD52?logo=qt&logoColor=white)](https://riverbankcomputing.com/software/pyqt/)
 [![Ollama](https://img.shields.io/badge/Ollama-LLM-000000?logo=ollama&logoColor=white)](https://ollama.com/)
+[![macOS](https://img.shields.io/badge/macOS-Coming%20Soon-999999?logo=apple&logoColor=white)](#features)
 [![Built with AI](https://img.shields.io/badge/Built%20with-AI%20%F0%9F%A4%96-blueviolet)](#origin-story)
 
 > A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally, get polished text instantly typed into any application.
@@ -38,6 +39,7 @@ The entire codebase has been optimized for a specific machine (RTX 4090 + i9-149
 - **100+ tunable settings** - customize everything
 - **Optimized for speed** - <1 second total latency on RTX 4090
 - **Multilingual** - handles English, French, and seamless code-switching (Franglais!)
+- **macOS support coming soon** - native Apple Silicon version in development
 
 ## Requirements
 
