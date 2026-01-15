@@ -14,6 +14,12 @@
 
 **100% offline. No cloud. No subscription. Your voice stays on your machine.**
 
+## Why LocalWhisper?
+
+I built this because **commercial solutions like Whisper Flow don't work in terminals** - they only inject text into IDEs. I needed voice-to-text that works *everywhere*, including command-line interfaces, SSH sessions, and any text field on my system.
+
+**Heads up:** This is 100% vibe-coded. Not production-grade, not enterprise-ready. Use at your own risk. But it works great for my daily workflow, and maybe it will for yours too.
+
 ## Origin Story
 
 This project was built in **45 minutes** by [Antigravity](https://github.com/Fredasterehub) and **Gemini 3.0 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
@@ -23,7 +29,7 @@ After the initial build, additional features were added over time with help from
 - 5 overlay themes (Matrix Rain, Sauron Eye, etc.)
 - MMCSS Pro Audio thread priority for low-latency capture
 - P-core affinity optimization for Intel hybrid CPUs
-- 100+ tunable settings with live preview
+- Tunable settings with live preview
 
 The entire codebase has been optimized for a specific machine (RTX 4090 + i9-14900K). **Your mileage may vary** on different hardware - see the [Hardware Compatibility](#hardware-compatibility) section below.
 
@@ -32,11 +38,12 @@ The entire codebase has been optimized for a specific machine (RTX 4090 + i9-149
 - **Two interfaces** - GUI overlay or Terminal UI (TUI) - your choice
 - **State-of-the-art transcription** with Whisper large-v3-turbo (6x faster than large-v3)
 - **Smart grammar correction** via local LLM (Ollama)
-- **Voice Activity Detection** - automatically detects when you stop speaking
-- **Instant text injection** - types directly into any focused window
+- **Voice Activity Detection** - default mode, automatically detects when you stop speaking
+- **Push-to-Talk** - also available and works great if you prefer manual control
+- **Instant text injection** - types directly into any focused window, including terminals
 - **5 overlay themes** - Matrix Rain, Dot, Sauron Eye, HUD Ring, Cyborg
 - **Cyberpunk TUI** - Matrix rain in your terminal with Textual
-- **100+ tunable settings** - customize everything
+- **Customizable settings** - tweak to your needs
 - **Optimized for speed** - <1 second total latency on RTX 4090
 - **Multilingual** - handles English, French, and seamless code-switching (Franglais!)
 - **macOS support coming soon** - native Apple Silicon version in development
@@ -276,7 +283,7 @@ localwhisper/
 │   ├── transcriber.py   # Faster-Whisper inference
 │   ├── intelligence.py  # Ollama grammar correction
 │   ├── injector.py      # Text injection (type/paste)
-│   ├── settings.py      # 100+ tunable parameters
+│   ├── settings.py      # Settings manager
 │   ├── cpu_affinity.py  # Intel P-core optimization
 │   └── mmcss.py         # Windows Pro Audio priority
 ├── ui/
@@ -477,7 +484,7 @@ Share these with the user after successful installation:
 tips:
   - hotkey: "Default is Ctrl+Alt+W, changeable in config.py"
   - overlay: "Right-click for menu, drag to reposition"
-  - settings: "100+ options available in Settings dialog"
+  - settings: "Check Settings dialog for customization options"
   - logs: "Check logs/session.log for debugging"
   - performance: "First transcription is slower (model loading)"
 ```
@@ -490,14 +497,14 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- **Gemini 3.0 Pro** - Built the initial version in 45 minutes
+- **Antigravity** - Creator and maintainer
+- **Google Gemini 3.0 Pro** - Built the initial version in 45 minutes
 - **Claude** - Helped polish and add features
 - OpenAI for Whisper
 - SYSTRAN for Faster-Whisper
 - Silero Team for VAD
-- Google for Gemma
 - Ollama team for local LLM serving
 
 ---
 
-*Built with AI. Runs without it.*
+*100% vibe-coded. Use at your own risk.*
