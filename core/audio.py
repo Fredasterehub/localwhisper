@@ -118,8 +118,8 @@ class AudioEngine:
 
     def download_vad_if_needed(self):
         if not os.path.exists(self.vad_model_path) or os.path.getsize(self.vad_model_path) < 1000000:
-            # Silero VAD v5 - 10% faster ONNX inference
-            url = "https://github.com/snakers4/silero-vad/raw/v5.1/src/silero_vad/data/silero_vad.onnx"
+            # Silero VAD v4 (v5 has different API structure - needs migration)
+            url = "https://github.com/snakers4/silero-vad/raw/v4.0/files/silero_vad.onnx"
             try:
                 headers = {'User-Agent': 'Mozilla/5.0'}
                 r = requests.get(url, headers=headers, allow_redirects=True, timeout=10)

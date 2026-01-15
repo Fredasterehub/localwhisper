@@ -8,6 +8,7 @@ audio threads to slower E-cores. This module provides utilities to:
 """
 
 import ctypes
+from ctypes import wintypes
 import platform
 import os
 from core.logger import log
@@ -24,6 +25,39 @@ class THREAD_POWER_THROTTLING_STATE(ctypes.Structure):
         ("ControlMask", ctypes.c_ulong),
         ("StateMask", ctypes.c_ulong),
     ]
+
+
+# Set up kernel32 with proper error handling
+_kernel32 = None
+
+def _get_kernel32():
+    global _kernel32
+    if _kernel32 is None and platform.system() == 'Windows':
+        _kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+
+        # SetProcessAffinityMask
+        _kernel32.SetProcessAffinityMask.argtypes = [wintypes.HANDLE, ctypes.c_size_t]
+        _kernel32.SetProcessAffinityMask.restype = wintypes.BOOL
+
+        # GetCurrentProcess
+        _kernel32.GetCurrentProcess.argtypes = []
+        _kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+
+        # SetPriorityClass
+        _kernel32.SetPriorityClass.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        _kernel32.SetPriorityClass.restype = wintypes.BOOL
+
+        # GetCurrentThread
+        _kernel32.GetCurrentThread.argtypes = []
+        _kernel32.GetCurrentThread.restype = wintypes.HANDLE
+
+        # SetThreadInformation
+        _kernel32.SetThreadInformation.argtypes = [
+            wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD
+        ]
+        _kernel32.SetThreadInformation.restype = wintypes.BOOL
+
+    return _kernel32
 
 
 def get_cpu_info() -> dict:
@@ -58,9 +92,11 @@ def set_process_affinity_to_p_cores() -> bool:
         return False
 
     try:
-        kernel32 = ctypes.windll.kernel32
-        info = get_cpu_info()
+        kernel32 = _get_kernel32()
+        if kernel32 is None:
+            return False
 
+        info = get_cpu_info()
         handle = kernel32.GetCurrentProcess()
         mask = info['p_core_mask']
 
@@ -94,7 +130,9 @@ def disable_power_throttling() -> bool:
         return False
 
     try:
-        kernel32 = ctypes.windll.kernel32
+        kernel32 = _get_kernel32()
+        if kernel32 is None:
+            return False
 
         # Get current thread handle
         thread_handle = kernel32.GetCurrentThread()
@@ -136,7 +174,10 @@ def set_high_process_priority() -> bool:
         return False
 
     try:
-        kernel32 = ctypes.windll.kernel32
+        kernel32 = _get_kernel32()
+        if kernel32 is None:
+            return False
+
         HIGH_PRIORITY_CLASS = 0x00000080
 
         handle = kernel32.GetCurrentProcess()
