@@ -184,7 +184,8 @@ class MatrixRainWidget(OverlayBaseWidget):
         self.setGeometry(x, y, self.width_, self.height_)
         
         self._wave_phase = 0.0
-        
+        self._breath_phase = 0.0
+
         # Matrix Rain Config
         self.font_size = 12
         self.cols = int(self.width_ / self.font_size)
@@ -232,6 +233,12 @@ class MatrixRainWidget(OverlayBaseWidget):
 
         # Animate the electric wave phase
         self._wave_phase += 0.15 * state_speed_mult
+
+        # Animate breathing during PROCESSING (organic thinking pulse)
+        if self.state == "PROCESSING":
+            self._breath_phase += 0.06  # Slow, organic rhythm
+        else:
+            self._breath_phase = 0.0  # Reset when not processing
 
         # Update drops
         active_drops = []
@@ -289,8 +296,18 @@ class MatrixRainWidget(OverlayBaseWidget):
                 alpha = 255 - int((i / d['len']) * 255)
                 alpha = max(alpha, 0)
 
+                # Breathing effect during PROCESSING (organic thinking pulse)
+                if self.state == "PROCESSING":
+                    breath = 0.5 + 0.5 * math.sin(self._breath_phase)  # 0.0 to 1.0
+                    alpha = int(alpha * (0.35 + 0.65 * breath))  # Pulse between 35% and 100%
+
                 if i == 0: # Head
-                    painter.setPen(QColor(220, 255, 220, 255) if self.state != "PROCESSING" else QColor(200, 200, 255))
+                    if self.state == "PROCESSING":
+                        breath = 0.5 + 0.5 * math.sin(self._breath_phase)
+                        head_alpha = int(150 + 105 * breath)  # 150-255 range
+                        painter.setPen(QColor(200, 200, 255, head_alpha))
+                    else:
+                        painter.setPen(QColor(220, 255, 220, 255))
                 else:
                     # Color Logic
                     if self.state == "PROCESSING":
