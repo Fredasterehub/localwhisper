@@ -1,0 +1,62 @@
+# LocalWhisper - AI Assistant Instructions
+
+> This file provides instructions for AI assistants helping users install and use LocalWhisper.
+
+## What is LocalWhisper?
+
+Local voice-to-text app for Windows & macOS. Works everywhere including terminals.
+- Whisper large-v3-turbo for transcription
+- Ollama + Gemma 3 1B for grammar correction (optional)
+- ~0.6s total latency on RTX 4090
+
+## Installation (Windows)
+
+```
+git clone https://github.com/Fredasterehub/localwhisper.git
+cd localwhisper
+install.bat
+run.bat
+```
+
+## Installation (macOS)
+
+Native Apple Silicon version - upload coming soon.
+
+## Requirements
+
+- Python 3.10+
+- NVIDIA GPU with 6GB+ VRAM (Windows) or Apple Silicon (macOS)
+- Ollama (optional, for grammar correction)
+
+## Model Selection by VRAM
+
+- 24GB+: large-v3-turbo, float16
+- 8-16GB: large-v3-turbo, float16
+- 6-8GB: medium, float16
+- <6GB: small, int8
+
+## Key Files
+
+- config.py: Model, hotkey, Ollama settings
+- core/settings.py: Advanced parameters
+- logs/session.log: Debug logs
+
+## Common Issues
+
+1. CUDA not found → Install NVIDIA CUDA Toolkit 11.8+
+2. No audio → Settings → Input Device, check green level bar
+3. Text not appearing → Run as Administrator
+4. Ollama errors → Run `ollama serve` first
+5. Slow on Windows → Already fixed with 127.0.0.1 optimization
+
+## Usage
+
+1. Focus any text field
+2. Press Ctrl+Alt+W
+3. Speak (overlay turns red)
+4. Stop speaking (text appears)
+
+## More Info
+
+- Full README: https://github.com/Fredasterehub/localwhisper
+- CLAUDE.md in repo has detailed dev instructions
