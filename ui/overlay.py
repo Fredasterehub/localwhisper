@@ -147,7 +147,10 @@ class MatrixRainWidget(OverlayBaseWidget):
         state_speed_mult = 1.0
         if self.state == "LISTENING": state_speed_mult = 2.5
         elif self.state == "PROCESSING": state_speed_mult = 1.5
-        
+
+        # Animate the electric wave phase
+        self._wave_phase += 0.15 * state_speed_mult
+
         # Update drops
         active_drops = []
         for d in self.drops:
