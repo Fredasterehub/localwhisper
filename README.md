@@ -1,6 +1,13 @@
 # LocalWhisper
 
-A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally, get polished text instantly typed into any application.
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)](https://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows)](https://microsoft.com/windows)
+[![NVIDIA CUDA](https://img.shields.io/badge/NVIDIA-CUDA-76B900?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![Whisper](https://img.shields.io/badge/OpenAI-Whisper-412991?logo=openai)](https://github.com/openai/whisper)
+[![Built with AI](https://img.shields.io/badge/Built%20with-AI%20%F0%9F%A4%96-blueviolet)](#origin-story)
+
+> A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally, get polished text instantly typed into any application.
 
 **100% offline. No cloud. No subscription. Your voice stays on your machine.**
 
