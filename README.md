@@ -6,7 +6,7 @@ A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally
 
 ## Origin Story
 
-This project was built in **45 minutes** by [Antigravity](https://github.com/YOUR_USERNAME) and **Gemini 2.5 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
+This project was built in **45 minutes** by [Antigravity](https://github.com/YOUR_USERNAME) and **Gemini 3.0 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
 
 After the initial build, additional features were added over time with help from various AI coding assistants:
 - Audio visualizer with real-time waveform display
@@ -259,7 +259,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- **Gemini 2.5 Pro** - Built the initial version in 45 minutes
+- **Gemini 3.0 Pro** - Built the initial version in 45 minutes
 - **Claude** - Helped polish and add features
 - OpenAI for Whisper
 - SYSTRAN for Faster-Whisper
