@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+venv_wsl/
+ENV/
+env/
+.venv/
+
+# Models (large binaries - download separately)
+models/
+*.onnx
+!silero_vad.onnx
+
+# Logs
+logs/
+*.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+mac_release/
+
+# User-specific
+user_settings.json
+.claude/
+
+# Temporary / backup
+*.bak
+*.tmp
+*.incomplete

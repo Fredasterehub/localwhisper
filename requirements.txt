@@ -1,0 +1,13 @@
+PyQt6
+pynput
+faster_whisper
+huggingface_hub
+pillow
+requests
+nvidia-cublas-cu11
+nvidia-cudnn-cu11
+openai-whisper
+textual
+sounddevice
+numpy
+onnxruntime
