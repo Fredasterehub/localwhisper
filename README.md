@@ -255,17 +255,26 @@ Watch this repo or check back soon for the release.
 
 ## Performance
 
-Benchmarked on RTX 4090 + i9-14900K:
+Benchmarked on RTX 4090 + i9-14900K with real speech tests:
 
 | Metric | Value |
 |--------|-------|
-| Total latency | < 1 second |
-| Whisper inference | 0.2 - 0.4s |
-| Grammar correction | ~100ms |
+| **Total latency** | **~0.6s** |
+| Whisper inference | ~0.23s |
+| Grammar correction (Ollama) | ~0.35s |
+| Whisper only (no grammar) | ~0.4s |
 | Idle CPU usage | < 10% |
 | VRAM usage | ~6GB |
 
-*Results will vary based on your hardware.*
+### Optimizations Applied
+
+- **127.0.0.1 instead of localhost** - Fixes 2-second DNS lookup delay on Windows
+- **HTTP connection reuse** - `requests.Session()` for persistent TCP connections
+- **Whisper large-v3-turbo** - 6x faster than large-v3, same quality
+
+These optimizations reduced total latency from ~2.7s to ~0.6s.
+
+*Run `python benchmark_interactive.py` to test on your hardware.*
 
 ## Troubleshooting
 
