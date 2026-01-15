@@ -1,62 +1,134 @@
-# LocalWhisper - AI Assistant Instructions
+# llms.txt - LocalWhisper
+# Machine-readable instructions for AI assistants
+# Format: YAML blocks for structured data, markdown for context
 
-> This file provides instructions for AI assistants helping users install and use LocalWhisper.
-
-## What is LocalWhisper?
-
-Local voice-to-text app for Windows & macOS. Works everywhere including terminals.
-- Whisper large-v3-turbo for transcription
-- Ollama + Gemma 3 1B for grammar correction (optional)
-- ~0.6s total latency on RTX 4090
-
-## Installation (Windows)
-
-```
-git clone https://github.com/Fredasterehub/localwhisper.git
-cd localwhisper
-install.bat
-run.bat
+## METADATA
+```yaml
+name: LocalWhisper
+description: Local voice-to-text for Windows & macOS. Works everywhere including terminals.
+repo: https://github.com/Fredasterehub/localwhisper
+license: MIT
+version: 1.0
 ```
 
-## Installation (macOS)
+## REQUIREMENTS
+```yaml
+python: ">=3.10"
+platforms:
+  windows:
+    gpu: NVIDIA with CUDA
+    vram_minimum: 6GB
+    os: Windows 10+
+  macos:
+    gpu: Apple Silicon (M1/M2/M3)
+    os: macOS 12+
+optional:
+  - ollama  # for grammar correction
+```
 
-Native Apple Silicon version - upload coming soon.
+## INSTALL_WINDOWS
+```yaml
+steps:
+  - cmd: git clone https://github.com/Fredasterehub/localwhisper.git
+  - cmd: cd localwhisper
+  - cmd: install.bat
+  - cmd: run.bat
+```
 
-## Requirements
+## INSTALL_MACOS
+```yaml
+status: coming_soon
+note: Native Apple Silicon version ready, upload pending
+```
 
-- Python 3.10+
-- NVIDIA GPU with 6GB+ VRAM (Windows) or Apple Silicon (macOS)
-- Ollama (optional, for grammar correction)
+## VRAM_MODEL_SELECTION
+```yaml
+# Adjust WHISPER_MODEL_SIZE in config.py based on available VRAM
+options:
+  - vram: ">=24GB"
+    model: large-v3-turbo
+    compute_type: float16
+  - vram: "8-16GB"
+    model: large-v3-turbo
+    compute_type: float16
+  - vram: "6-8GB"
+    model: medium
+    compute_type: float16
+  - vram: "<6GB"
+    model: small
+    compute_type: int8
+```
 
-## Model Selection by VRAM
+## USAGE
+```yaml
+hotkey: Ctrl+Alt+W
+workflow:
+  1: Focus any text field (terminal, browser, IDE, etc.)
+  2: Press hotkey - overlay appears
+  3: Speak - overlay turns red while recording
+  4: Stop speaking - overlay turns blue, text is typed
+```
 
-- 24GB+: large-v3-turbo, float16
-- 8-16GB: large-v3-turbo, float16
-- 6-8GB: medium, float16
-- <6GB: small, int8
+## CONFIGURATION
+```yaml
+files:
+  config.py:
+    purpose: Main settings (model, hotkey, Ollama URL)
+    key_variables:
+      - WHISPER_MODEL_SIZE  # Model size (see VRAM_MODEL_SELECTION)
+      - HOTKEY              # Activation hotkey
+      - OLLAMA_URL          # Must use 127.0.0.1, not localhost
+      - OLLAMA_MODEL        # Default: gemma3:1b
+  core/settings.py:
+    purpose: Advanced parameters
+  user_settings.json:
+    purpose: Persisted user preferences (auto-generated)
+```
 
-## Key Files
+## TROUBLESHOOTING
+```yaml
+issues:
+  - symptom: CUDA not found
+    solution: Install NVIDIA CUDA Toolkit 11.8+
 
-- config.py: Model, hotkey, Ollama settings
-- core/settings.py: Advanced parameters
-- logs/session.log: Debug logs
+  - symptom: No audio detected
+    solution: Open Settings > Input Device, verify green level bar moves when speaking
 
-## Common Issues
+  - symptom: Text not appearing in target window
+    solution: Run application as Administrator
 
-1. CUDA not found → Install NVIDIA CUDA Toolkit 11.8+
-2. No audio → Settings → Input Device, check green level bar
-3. Text not appearing → Run as Administrator
-4. Ollama errors → Run `ollama serve` first
-5. Slow on Windows → Already fixed with 127.0.0.1 optimization
+  - symptom: Ollama connection errors
+    solution: Start Ollama first with `ollama serve`
 
-## Usage
+  - symptom: Slow response (>1s latency)
+    solution: Verify config.py uses OLLAMA_URL="http://127.0.0.1:11434/api/generate" (not localhost)
 
-1. Focus any text field
-2. Press Ctrl+Alt+W
-3. Speak (overlay turns red)
-4. Stop speaking (text appears)
+logs: logs/session.log
+```
 
-## More Info
+## PERFORMANCE
+```yaml
+benchmarks:
+  hardware: RTX 4090 + i9-14900K
+  whisper_inference: 0.23s
+  grammar_correction: 0.35s
+  total_latency: 0.6s
+  vram_usage: 6GB
+```
 
-- Full README: https://github.com/Fredasterehub/localwhisper
-- CLAUDE.md in repo has detailed dev instructions
+## TECH_STACK
+```yaml
+components:
+  transcription: faster-whisper (large-v3-turbo)
+  vad: silero-vad v4
+  grammar: ollama + gemma3:1b
+  gui: PyQt6
+  tui: textual
+  audio: sounddevice
+```
+
+## RELATED_FILES
+```yaml
+for_claude_code: CLAUDE.md  # Detailed dev instructions
+for_humans: README.md       # Full documentation
+```
