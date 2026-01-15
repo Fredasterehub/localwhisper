@@ -19,11 +19,13 @@ The entire codebase has been optimized for a specific machine (RTX 4090 + i9-149
 
 ## Features
 
+- **Two interfaces** - GUI overlay or Terminal UI (TUI) - your choice
 - **State-of-the-art transcription** with Whisper large-v3-turbo (6x faster than large-v3)
 - **Smart grammar correction** via local LLM (Ollama)
 - **Voice Activity Detection** - automatically detects when you stop speaking
 - **Instant text injection** - types directly into any focused window
 - **5 overlay themes** - Matrix Rain, Dot, Sauron Eye, HUD Ring, Cyborg
+- **Cyberpunk TUI** - Matrix rain in your terminal with Textual
 - **100+ tunable settings** - customize everything
 - **Optimized for speed** - <1 second total latency on RTX 4090
 - **Multilingual** - handles English, French, and seamless code-switching (Franglais!)
@@ -93,10 +95,51 @@ ollama pull gemma3:1b
 
 ## Usage
 
-### Quick Start
+LocalWhisper offers **two interfaces** - choose the one that fits your workflow:
+
+### GUI Mode (Default)
+
+The graphical overlay that floats on your desktop.
 
 ```bash
 run.bat
+# or
+python main.py
+```
+
+**Features:**
+- Floating overlay with 5 visual themes
+- Right-click menu for settings
+- Drag to reposition anywhere on screen
+- Real-time audio visualization
+- Full settings dialog with live preview
+
+### TUI Mode (Terminal)
+
+A cyberpunk-style terminal interface built with [Textual](https://textual.textualize.io/).
+
+```bash
+run_tui.bat
+# or
+python main_tui.py
+```
+
+**Features:**
+- Matrix rain animation in the terminal
+- Split-pane layout: visualization + status log
+- Keyboard-driven (press `q` to quit, `s` for settings info)
+- Perfect for SSH sessions or minimal setups
+- Same core engine as GUI mode
+
+```
+┌─────────────────────────────────────┬──────────────────────┐
+│                                     │ STATUS: IDLE         │
+│     ╔═══════════════════════╗       ├──────────────────────┤
+│     ║  M A T R I X   R A I N ║      │ [12:34:56] READY     │
+│     ║  ░▒▓█ катакана █▓▒░   ║      │ [12:34:57] LISTENING │
+│     ╚═══════════════════════╝       │ [12:35:01] PROCESSING│
+│                                     │ [12:35:02] SUCCESS   │
+└─────────────────────────────────────┴──────────────────────┘
 ```
 
 ### Basic Workflow
