@@ -15,7 +15,7 @@
 
 ## Origin Story
 
-This project was built in **45 minutes** by [Antigravity](https://github.com/YOUR_USERNAME) and **Gemini 3.0 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
+This project was built in **45 minutes** by [Antigravity](https://github.com/Fredasterehub) and **Gemini 3.0 Pro** as a proof of concept. The core pipeline (hotkey → record → transcribe → inject) was functional from the start.
 
 After the initial build, additional features were added over time with help from various AI coding assistants:
 - Audio visualizer with real-time waveform display
@@ -62,7 +62,7 @@ The entire codebase has been optimized for a specific machine (RTX 4090 + i9-149
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/localwhisper.git
+git clone https://github.com/Fredasterehub/localwhisper.git
 cd localwhisper
 
 # 2. Run the installer
@@ -82,7 +82,7 @@ The installer will:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/localwhisper.git
+git clone https://github.com/Fredasterehub/localwhisper.git
 cd localwhisper
 
 # 2. Create virtual environment
@@ -339,7 +339,7 @@ Execute these steps in order:
 
 ```yaml
 step_1_clone:
-  command: "git clone https://github.com/YOUR_USERNAME/localwhisper.git && cd localwhisper"
+  command: "git clone https://github.com/Fredasterehub/localwhisper.git && cd localwhisper"
   verify: "Directory contains main.py, config.py, requirements.txt"
 
 step_2_create_venv:
