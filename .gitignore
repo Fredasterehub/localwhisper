@@ -47,6 +47,11 @@ user_settings.json
 *.incomplete
 .codex_backups_*/
 
+# Benchmark results (local testing only)
+benchmark_results_*.json
+test_*.py
+benchmark.py
+
 # Change diffs and patches
 *.diff
 *.patch
