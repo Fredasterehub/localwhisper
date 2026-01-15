@@ -18,7 +18,7 @@ DEVICE = "cuda" # or "cpu"
 
 # Ollama Settings
 USE_INTELLIGENCE = True # Set to True to enable Grammar Fixing (Mistral/Llama)
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://127.0.0.1:11434/api/generate"  # Use IP, not localhost (faster on Windows)
 OLLAMA_MODEL = "gemma3:1b"  # Fast grammar correction, excellent multilingual
 
 # Input Settings

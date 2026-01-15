@@ -10,6 +10,8 @@ class IntelligenceEngine:
     def __init__(self):
         self.url = config.OLLAMA_URL
         self.model = config.OLLAMA_MODEL
+        # Use Session for connection reuse (massive speedup on Windows)
+        self._session = requests.Session()
         print(f"Intelligence Engine connected to {self.model} at {self.url}")
 
     @staticmethod
@@ -115,7 +117,7 @@ class IntelligenceEngine:
         }
 
         try:
-            response = requests.post(
+            response = self._session.post(
                 self.url,
                 json=payload,
                 timeout=float(settings.get("ollama_timeout_s")),
