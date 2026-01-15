@@ -234,11 +234,11 @@ class MatrixRainWidget(OverlayBaseWidget):
         # Animate the electric wave phase
         self._wave_phase += 0.15 * state_speed_mult
 
-        # Animate breathing during PROCESSING (organic thinking pulse)
+        # Knight Rider sweep during PROCESSING
         if self.state == "PROCESSING":
-            self._breath_phase += 0.06  # Slow, organic rhythm
+            self._breath_phase += 0.08  # Fast sweep speed
         else:
-            self._breath_phase = 0.0  # Reset when not processing
+            self._breath_phase = 0.0
 
         # Update drops
         active_drops = []
@@ -296,15 +296,37 @@ class MatrixRainWidget(OverlayBaseWidget):
                 alpha = 255 - int((i / d['len']) * 255)
                 alpha = max(alpha, 0)
 
-                # Breathing effect during PROCESSING (organic thinking pulse)
+                # Knight Rider sweep during PROCESSING
                 if self.state == "PROCESSING":
-                    breath = 0.5 + 0.5 * math.sin(self._breath_phase)  # 0.0 to 1.0
-                    alpha = int(alpha * (0.35 + 0.65 * breath))  # Pulse between 35% and 100%
+                    # Sweep position: 0 to 1 to 0 (ping-pong)
+                    sweep = abs(math.sin(self._breath_phase))  # 0→1→0
+                    sweep_col = int(sweep * self.cols)
+
+                    # Distance from sweep (with wrap for smoothness)
+                    dist = abs(d['col'] - sweep_col)
+
+                    # Glow width (columns affected by sweep)
+                    glow_width = max(3, self.cols // 6)
+
+                    if dist < glow_width:
+                        # Boost brightness near sweep (Knight Rider glow)
+                        boost = 1.0 - (dist / glow_width)
+                        alpha = int(alpha * (0.5 + 0.8 * boost))  # 50% base, up to 130%
+                        alpha = min(255, alpha)
+                    else:
+                        alpha = int(alpha * 0.5)  # Dim columns away from sweep
 
                 if i == 0: # Head
                     if self.state == "PROCESSING":
-                        breath = 0.5 + 0.5 * math.sin(self._breath_phase)
-                        head_alpha = int(150 + 105 * breath)  # 150-255 range
+                        sweep = abs(math.sin(self._breath_phase))
+                        sweep_col = int(sweep * self.cols)
+                        dist = abs(d['col'] - sweep_col)
+                        glow_width = max(3, self.cols // 6)
+                        if dist < glow_width:
+                            boost = 1.0 - (dist / glow_width)
+                            head_alpha = int(180 + 75 * boost)
+                        else:
+                            head_alpha = 150
                         painter.setPen(QColor(200, 200, 255, head_alpha))
                     else:
                         painter.setPen(QColor(220, 255, 220, 255))
