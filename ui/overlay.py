@@ -14,6 +14,9 @@ class OverlayBaseWidget(QWidget):
         self.state = "IDLE"
         self.locked = True
         self.drag_pos = None
+        self._resizing = False
+        self._resize_edge = None
+        self._min_size = (150, 100)
 
         # Window Flags: Frameless, On Top, Tool
         self.setWindowFlags(
@@ -22,6 +25,7 @@ class OverlayBaseWidget(QWidget):
             | Qt.WindowType.Tool
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setMouseTracking(True)  # For resize cursor feedback
 
         # Eco Mode State
         self.last_activity_time = time.time()
@@ -50,15 +54,93 @@ class OverlayBaseWidget(QWidget):
         self.last_activity_time = time.time()
         self.update()
 
-    # --- Mouse Interaction ---
+    # --- Mouse Interaction (Drag & Resize) ---
+    def _get_resize_edge(self, pos):
+        """Detect if mouse is near an edge for resizing."""
+        margin = 12
+        x, y = pos.x(), pos.y()
+        w, h = self.width(), self.height()
+
+        edges = []
+        if x < margin: edges.append('left')
+        if x > w - margin: edges.append('right')
+        if y < margin: edges.append('top')
+        if y > h - margin: edges.append('bottom')
+
+        if edges:
+            return '_'.join(edges)
+        return None
+
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             if not self.locked:
-                self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+                edge = self._get_resize_edge(event.position().toPoint())
+                if edge:
+                    self._resizing = True
+                    self._resize_edge = edge
+                    self._resize_start_pos = event.globalPosition().toPoint()
+                    self._resize_start_geo = self.geometry()
+                else:
+                    self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._resizing = False
+            self._resize_edge = None
+            self.drag_pos = None
 
     def mouseMoveEvent(self, event):
-        if event.buttons() == Qt.MouseButton.LeftButton and not self.locked and self.drag_pos:
+        if self.locked:
+            return
+
+        pos = event.position().toPoint()
+
+        # Update cursor based on edge
+        if not self._resizing:
+            edge = self._get_resize_edge(pos)
+            if edge in ('left', 'right'):
+                self.setCursor(Qt.CursorShape.SizeHorCursor)
+            elif edge in ('top', 'bottom'):
+                self.setCursor(Qt.CursorShape.SizeVerCursor)
+            elif edge in ('top_left', 'bottom_right'):
+                self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+            elif edge in ('top_right', 'bottom_left'):
+                self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+            elif edge:
+                self.setCursor(Qt.CursorShape.SizeAllCursor)
+            else:
+                self.setCursor(Qt.CursorShape.ArrowCursor)
+
+        # Handle resizing
+        if self._resizing and self._resize_edge:
+            delta = event.globalPosition().toPoint() - self._resize_start_pos
+            geo = QRect(self._resize_start_geo)
+
+            if 'right' in self._resize_edge:
+                geo.setWidth(max(self._min_size[0], self._resize_start_geo.width() + delta.x()))
+            if 'bottom' in self._resize_edge:
+                geo.setHeight(max(self._min_size[1], self._resize_start_geo.height() + delta.y()))
+            if 'left' in self._resize_edge:
+                new_w = max(self._min_size[0], self._resize_start_geo.width() - delta.x())
+                geo.setLeft(self._resize_start_geo.right() - new_w)
+            if 'top' in self._resize_edge:
+                new_h = max(self._min_size[1], self._resize_start_geo.height() - delta.y())
+                geo.setTop(self._resize_start_geo.bottom() - new_h)
+
+            self.setGeometry(geo)
+            self._update_size()
+            return
+
+        # Handle dragging
+        if event.buttons() == Qt.MouseButton.LeftButton and self.drag_pos:
             self.move(event.globalPosition().toPoint() - self.drag_pos)
+
+    def _update_size(self):
+        """Called after resize to update internal dimensions."""
+        self.width_ = self.width()
+        self.height_ = self.height()
+        if hasattr(self, 'cols'):
+            self.cols = int(self.width_ / self.font_size)
 
     def contextMenuEvent(self, event):
         menu = QMenu(self)
@@ -206,10 +288,7 @@ class MatrixRainWidget(OverlayBaseWidget):
                 char = d['chars'][i]
                 alpha = 255 - int((i / d['len']) * 255)
                 alpha = max(alpha, 0)
-                
-                # Dim trails if listening to emphasize wave
-                if self.state == "LISTENING": alpha = int(alpha * 0.3)
-                
+
                 if i == 0: # Head
                     painter.setPen(QColor(220, 255, 220, 255) if self.state != "PROCESSING" else QColor(200, 200, 255))
                 else:
