@@ -54,3 +54,6 @@ user_settings.json
 # macOS installer artifacts
 *.command
 *.dmg
+
+# Archive (local only, not for public repo)
+_archive/
