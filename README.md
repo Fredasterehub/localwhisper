@@ -7,7 +7,7 @@
 [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-412991?logo=openai)](https://github.com/openai/whisper)
 [![PyQt6](https://img.shields.io/badge/PyQt6-GUI-41CD52?logo=qt&logoColor=white)](https://riverbankcomputing.com/software/pyqt/)
 [![Ollama](https://img.shields.io/badge/Ollama-LLM-000000?logo=ollama&logoColor=white)](https://ollama.com/)
-[![macOS](https://img.shields.io/badge/macOS-Coming%20Soon-999999?logo=apple&logoColor=white)](#features)
+[![macOS](https://img.shields.io/badge/macOS-Ready-success?logo=apple&logoColor=white)](#macos-support)
 [![Built with AI](https://img.shields.io/badge/Built%20with-AI%20%F0%9F%A4%96-blueviolet)](#origin-story)
 
 > A blazing-fast, fully local voice-to-text assistant for Windows. Speak naturally, get polished text instantly typed into any application.
@@ -46,7 +46,7 @@ The entire codebase has been optimized for a specific machine (RTX 4090 + i9-149
 - **Customizable settings** - tweak to your needs
 - **Optimized for speed** - <1 second total latency on RTX 4090
 - **Multilingual** - handles English, French, and seamless code-switching (Franglais!)
-- **macOS support coming soon** - native Apple Silicon version in development
+- **macOS support ready** - native Apple Silicon version, upload coming very soon
 
 ## Requirements
 
@@ -230,6 +230,18 @@ Should work, but the P-core affinity optimization (`core/cpu_affinity.py`) is In
 ### Tuning for Your Machine
 
 **Pro tip:** Ask your local AI assistant (Claude, GPT, etc.) to help you tune the settings for your specific hardware. Share your specs and the contents of `config.py` and `core/settings.py`, and ask for optimization suggestions.
+
+## macOS Support
+
+The macOS version is **fully developed and optimized** for Apple Silicon (M1/M2/M3/M4). Upload coming very soon.
+
+**What to expect:**
+- Native Apple Silicon support (no Rosetta needed)
+- Optimized for Metal GPU acceleration
+- Same features as the Windows version
+- One-click installer (.command file)
+
+Watch this repo or check back soon for the release.
 
 ## Overlay Themes
 
@@ -507,4 +519,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-*100% vibe-coded. Use at your own risk.*
+*"Talk is cheap. Show me the code."* — **Linus Torvalds**
