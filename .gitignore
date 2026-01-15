@@ -45,3 +45,12 @@ user_settings.json
 *.bak
 *.tmp
 *.incomplete
+.codex_backups_*/
+
+# Change diffs and patches
+*.diff
+*.patch
+
+# macOS installer artifacts
+*.command
+*.dmg
