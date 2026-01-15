@@ -20,6 +20,24 @@ To minimize token usage and keep conversations efficient:
 4. **Batch parallel operations** - Launch multiple independent agents in a single message
 5. **Keep main context lean** - Delegate deep dives to sub-agents, summarize results back
 
+## Git Etiquette (MANDATORY)
+
+The user is new to git. **Every agent must follow proper git practices:**
+
+1. **Commit often** - Small, logical commits with clear messages
+2. **Descriptive commit messages** - Use conventional commits format:
+   - `feat:` new feature
+   - `fix:` bug fix
+   - `perf:` performance improvement
+   - `refactor:` code restructuring
+   - `docs:` documentation only
+   - `chore:` maintenance tasks
+3. **Always verify before committing** - Run `git status` and `git diff` first
+4. **Never force push** - Protect the commit history
+5. **Create safety commits** - Before risky changes, commit working state first
+6. **Explain git operations** - Help the user understand what's happening
+7. **Use .gitignore properly** - Don't commit generated files, caches, or secrets
+
 ## Hardware
 
 | Component | Spec |
